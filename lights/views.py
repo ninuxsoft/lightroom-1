@@ -2,9 +2,15 @@
 from django.core.exceptions import ValidationError
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.decorators.csrf import csrf_exempt
 
 import json
+import subprocess
 from models import Light
+import logging
+
+
+log = logging.getLogger(__name__)
 
 def index(request):
     lights = Light.objects.order_by('pos_x', 'pos_y')
@@ -47,9 +53,6 @@ def set(request, pos_x, pos_y, intensity):
     pos_x = int(pos_x)
     pos_y = int(pos_y)
     intensity = int(intensity)
-
-    if Light.valid_intensity(intensity):
-        raise Http404
 
     light = Light.objects.get(pos_x = 0, pos_y = 0)
     light = get_object_or_404(Light, pos_x = pos_x, pos_y = pos_y)
@@ -99,8 +102,15 @@ def set_multi(request):
     return HttpResponse(len(lights))
 
 
+@csrf_exempt
 def set_js(request):
-    return HttpResponse("Not working yet :)")
+    js = request.REQUEST.get('js')
+    p = subprocess.Popen("sudo docker run -i node /bin/bash -c 'cat > hello.js; node hello.js'",
+                         shell=True, stdin=subprocess.PIPE)
+    p.stdin.write(js)
+    p.stdin.close()
+    log.info('asdfasdf')
+    return HttpResponse(js)
 
 
 def reset(request, size_x=10, size_y=10):
