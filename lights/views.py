@@ -1,6 +1,9 @@
 # Create your views here.
+from django.core.exceptions import ValidationError
 from django.http import HttpResponse, Http404
 from django.shortcuts import render, get_object_or_404, redirect
+
+import json
 from models import Light
 
 def index(request):
@@ -34,12 +37,16 @@ def set(request, pos_x, pos_y, intensity):
     pos_y = int(pos_y)
     intensity = int(intensity)
 
-    if intensity < 0 or intensity > 100:
+    if Light.valid_intensity(intensity):
         raise Http404
 
     light = Light.objects.get(pos_x = 0, pos_y = 0)
     light = get_object_or_404(Light, pos_x = pos_x, pos_y = pos_y)
     light.intensity = intensity
+    try:
+        light.clean()
+    except ValidationError, e:
+        raise Http404
     light.save()
     return HttpResponse(intensity)
 
@@ -50,8 +57,35 @@ def toggle(request, pos_x, pos_y):
 
     light = get_object_or_404(Light, pos_x = pos_x, pos_y = pos_y)
     light.toggle()
+    try:
+        light.clean()
+    except ValidationError, e:
+        raise Http404
     light.save()
     return HttpResponse(light.intensity)
+
+
+def set_multi(request):
+    lights_json = request.REQUEST.get('lights')
+    if not lights_json:
+        raise Http404
+
+    lights = json.loads(lights_json)
+    for light in lights:
+        if ('pos_x' not in light or
+            'pos_y' not in light or
+            'intensity' not in light):
+            raise Http404
+
+        l = get_object_or_404(Light, pos_x = light['pos_x'], pos_y = light['pos_y'])
+        l.intensity = light['intensity']
+        try:
+            l.clean()
+        except ValidationError, e:
+            raise Http404
+        l.save()
+
+    return HttpResponse(len(lights))
 
 
 def set_js(request):
