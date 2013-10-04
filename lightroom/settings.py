@@ -1,3 +1,7 @@
+# Load local settings
+import json
+conf = json.load(open("/etc/lightroom.conf"))
+
 # Django settings for lightroom project.
 
 DEBUG = True
@@ -12,7 +16,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/fbhack/fbhack/www/lightroom/sql.db',                      # Or path to database file if using sqlite3.
+        'NAME': conf.get('db_path', '/home/fbhack/fbhack/www/lightroom/sql.db'),                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
