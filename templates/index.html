@@ -4,7 +4,9 @@
   {% for light_row in light_table %}
     <tr>
       {% for light in light_row %}
-        <td>{{ light }}</td>
+	{% with i=light.intensity %}
+        <td style="background: rgb({{i}},{{i}},{{i}}); width: 2em; height: 2em;">{{ i }}</td>
+	{% endwith %}
       {% endfor %}
     </tr>
   {% endfor %}
