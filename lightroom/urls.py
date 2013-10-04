@@ -20,4 +20,5 @@ urlpatterns = patterns('',
     url(r'^set/(?P<pos_x>\d+)/(?P<pos_y>\d+)/(?P<intensity>\d+)/$', views.set, name='set'),
     url(r'^toggle/(?P<pos_x>\d+)/(?P<pos_y>\d+)/$', views.toggle, name='toggle'),
     url(r'^set_js$', views.set_js, name='set_js'),
+    url(r'^reset(?:/(?P<size_x>\d+)(?:/(?P<size_y>\d+))?)?/$', views.reset, name='reset'),
 )

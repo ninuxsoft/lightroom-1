@@ -1,6 +1,6 @@
 # Create your views here.
 from django.http import HttpResponse, Http404
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from models import Light
 
 def index(request):
@@ -56,3 +56,14 @@ def toggle(request, pos_x, pos_y):
 
 def set_js(request):
     return HttpResponse("Not working yet :)")
+
+
+def reset(request, size_x=10, size_y=10):
+    size_x = int(size_x)
+    size_y = int(size_y)
+
+    Light.objects.all().delete()
+    for x in range(size_x):
+        for y in range(size_y):
+            Light(pos_x=x, pos_y=y, intensity = 0).save()
+    return redirect('index')
