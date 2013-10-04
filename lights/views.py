@@ -6,7 +6,20 @@ from models import Light
 def index(request):
     lights = Light.objects.order_by('pos_x', 'pos_y')
 
-    return render(request, 'index.html', {'lights': lights})
+    width = 0
+    height = 0
+    for light in lights:
+        if light.pos_x > width:
+            width = light.pos_x + 1
+        if light.pos_y > height:
+            height = light.pos_y + 1
+
+    light_table = [[None for x in xrange(width)] for y in xrange(height)]
+
+    for light in lights:
+        light_table[light.pos_x][light.pos_y] = light
+
+    return render(request, 'index.html', {'light_table': light_table})
 
 def get(request, pos_x, pos_y):
     pos_x = int(pos_x)

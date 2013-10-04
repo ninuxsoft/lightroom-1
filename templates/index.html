@@ -1,5 +1,11 @@
 <h1>Lightroom</h1>
 
-{% for light in lights %}
-  {{ light }}
-{% endfor %}
+<table>
+  {% for light_row in light_table %}
+    <tr>
+      {% for light in light_row %}
+        <td>{{ light }}</td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>
