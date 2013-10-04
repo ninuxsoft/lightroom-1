@@ -117,8 +117,7 @@ WSGI_APPLICATION = 'lightroom.wsgi.application'
 #    # Don't forget to use absolute paths, not relative paths.
 #)
 import os
-import sys
-TEMPLATE_DIRS = [os.path.join(sys.path[0], 'templates')]
+TEMPLATE_DIRS = [os.path.join(os.path.dirname(__file__), '..', 'templates')]
 
 INSTALLED_APPS = (
     'django.contrib.auth',
