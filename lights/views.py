@@ -9,12 +9,12 @@ def index(request):
     width = 0
     height = 0
     for light in lights:
-        if light.pos_x > width:
+        if light.pos_x >= width:
             width = light.pos_x + 1
-        if light.pos_y > height:
+        if light.pos_y >= height:
             height = light.pos_y + 1
 
-    light_table = [[None for x in xrange(width)] for y in xrange(height)]
+    light_table = [[None for x in xrange(height)] for y in xrange(width)]
 
     for light in lights:
         light_table[light.pos_x][light.pos_y] = light
