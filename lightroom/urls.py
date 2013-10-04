@@ -18,6 +18,6 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     url(r'^get/(?P<pos_x>\d+)/(?P<pos_y>\d+)/$', views.get, name='get'),
     url(r'^set/(?P<pos_x>\d+)/(?P<pos_y>\d+)/(?P<intensity>\d+)/$', views.set, name='set'),
-    url(r'^toggle/(?P<pos_x>\d+)/(?P<pos_y>\d+)/(?P<intensity>\d+)/$', views.toggle, name='toggle'),
+    url(r'^toggle/(?P<pos_x>\d+)/(?P<pos_y>\d+)/$', views.toggle, name='toggle'),
     url(r'^set_js$', views.set_js, name='set_js'),
 )

@@ -10,4 +10,5 @@ class Light(models.Model):
         return '(%s,%s)->%s' % (self.pos_x, self.pos_y, self.intensity)
 
     def toggle(self):
-        return 100 - self.intensity
+        self.intensity = 100 - self.intensity
+        return self
