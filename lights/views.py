@@ -32,6 +32,17 @@ def get(request, pos_x, pos_y):
     return HttpResponse(light.intensity)
 
 
+def get_multi(request):
+    lights = Light.objects.all()
+    lights_list = []
+    for light in lights:
+        lights_list.append(dict(
+                pos_x=light.pos_x,
+                pos_y=light.pos_y,
+                intensity=light.intensity))
+    return HttpResponse(json.dumps(lights_list))
+
+
 def set(request, pos_x, pos_y, intensity):
     pos_x = int(pos_x)
     pos_y = int(pos_y)

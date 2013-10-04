@@ -1,13 +1,27 @@
-<h1>Lightroom</h1>
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Lightroom!</title>
+    <script src="/resources/jquery.js"></script>
+    <script src="/resources/lightroom.js"></script>
+  </head>
+  <body>
+    <h1>Lightroom</h1>
 
-<table>
-  {% for light_row in light_table %}
-    <tr>
-      {% for light in light_row %}
+    <table>
+      {% for light_row in light_table %}
+      <tr>
+	{% for light in light_row %}
 	{% with i=light.intensity %}
-        <td style="background: rgb({{i}},{{i}},{{i}}); width: 2em; height: 2em;">{{ i }}</td>
+        <td class="cell"
+	    data-x="{{ light.pos_x }}"
+	    data-y="{{ light.pos_y }}"
+	    id="light_x{{ light.pos_x }}_y{{ light.pos_y }}"
+	    style="background: rgb({{i}},{{i}},{{i}}); width: 2em; height: 2em;">{{ i }}</td>
 	{% endwith %}
+	{% endfor %}
+      </tr>
       {% endfor %}
-    </tr>
-  {% endfor %}
-</table>
+    </table>
+  </body>
+</html>
