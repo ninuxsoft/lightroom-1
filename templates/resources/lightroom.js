@@ -1,4 +1,4 @@
-var refreshEveryMs = '200';
+var refreshEveryMs = '700';
 
 $(document).ready(function() {
     loadToggles();
@@ -27,11 +27,15 @@ function refreshLights () {
 	url: '/get_multi'
     }).done(function(data) {
 	$.each($.parseJSON(data), function (i, e) {
-	    var id = '#light_x' + e.pos_x + '_y' + e.pos_y;
-	    $(id).css(
-		 'background',
-		'rgb(' + e.intensity + ', ' + e.intensity + ', ' + e.intensity + ')');
-	    $(id).html(e.intensity);
+	    if ($(id).attr('data-intensity') != e.intensity) {
+		$(id).attr('data-intensity', e.intensity);
+		var id = '#light_x' + e.pos_x + '_y' + e.pos_y;
+		var r = Math.ceil(255 * e.intensity / 255);
+		var g = Math.ceil(238 * e.intensity / 255);
+		var b = Math.ceil(100 * e.intensity / 255);
+		var color = 'rgb(' + r + ', ' + g + ', ' + b + ')';
+		$(id).animate({backgroundColor: color}, 400);
+	    }
 	});
     });
 }

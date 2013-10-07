@@ -4,6 +4,8 @@
     <title>Lightroom!</title>
     <script src="/resources/jquery.js"></script>
     <script src="/resources/lightroom.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="resources/style.css" />
   </head>
   <body style="margin: 20px">
     <h1>Lightroom</h1>
@@ -13,11 +15,13 @@
       <tr>
 	{% for light in light_row %}
 	{% with i=light.intensity %}
-        <td class="cell"
-	    data-x="{{ light.pos_x }}"
-	    data-y="{{ light.pos_y }}"
-	    id="light_x{{ light.pos_x }}_y{{ light.pos_y }}"
-	    style="background: rgb({{i}},{{i}},{{i}}); width: 2em; height: 2em;">{{ i }}</td>
+        <td>
+	  <div class="cell"
+	       data-x="{{ light.pos_x }}"
+	       data-y="{{ light.pos_y }}"
+	       data-intensity=""
+	       id="light_x{{ light.pos_x }}_y{{ light.pos_y }}">&nbsp;</div>
+	</td>
 	{% endwith %}
 	{% endfor %}
       </tr>
@@ -28,8 +32,8 @@
     <form method="post" action="/set_js">
       <div>
 	<ul style="float: right">
-	  <li><i>get(x, y) -> intensity</i>: returns the intensity of a light</li>
-	  <li><i>set(x, y, intensity)</i>: fetch the state of a light</li>
+	  <li><i>get(x, y, handler(intensity))</i>: fetch the intensity of a light</li>
+	  <li><i>set(x, y, intensity)</i>: set the intensity of a light</li>
 	</ul>
 	<textarea name="js" style="width: 60%; height: 200px">// Write your JS code here.</textarea>
 	<br />

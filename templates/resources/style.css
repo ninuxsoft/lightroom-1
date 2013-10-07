@@ -1,0 +1,9 @@
+body {
+    font-family: Verdana;
+}
+
+.cell {
+    border-radius: 8px;
+    width: 2em;
+    height: 2em;
+}
